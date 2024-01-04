@@ -1,1 +1,4 @@
 # ASSIGNMENTS
+ASSIGNMENT NO 1 DESCRIPTION:This is the one page WebSite and in this i used only using Bootstrap for styling. And for data i  call fakestoreapi API and that i want to show on DOM.When the page/WebSite will open we see in side bar (sidebar item (Products)) when we was click this the data fetch from the fakestoreapi API and then this we see on DOM.
+
+ASSIGNMENT NO 2 DESCRIPTION:This is also one page website.In this we call the rest countries API through fetch and we will show all the countries name its capital name,currencies,languages,Area,Continent,and image of country on DOM.And then we will search for a country.When we enter the first alphabet in the search bar then those countries will filter which names start from that alphabet.And when we enter complete name in the search bar the country will filter.And if the enter name of country is not match with country then Show message on DOM/Screen No matching countries found.

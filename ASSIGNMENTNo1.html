@@ -1,0 +1,210 @@
+<!--This is the one page WebSite and in this i used only using Bootstrap for styling. And for data i  call fakestoreapi API and that i want to show on DOM.When the page/WebSite will open we see in side bar (sidebar item (Products)) when we was click this the data fetch from the fakestoreapi API and then this we see on DOM -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+    <title>Style The Web Page Using Only Bootstrap</title>
+  </head>
+  <body>
+    <header class="bg-dark text-white text-center py-2">
+      <h1>This the Header of WebSite</h1>
+    </header>
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+      <a class="navbar-brand" href="#">Navbar</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarNav"
+        aria-controls="navbarNav"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item active">
+            <a class="nav-link" href="#"
+              >Home <span class="sr-only">(current)</span></a
+            >
+          </li>
+        </ul>
+      </div>
+    </nav>
+     
+    <div class="container-fluid">
+      <div class="row">
+        <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+          <div class="sidebar-sticky">
+            <ul class="nav flex-column">
+              <li class="nav-item">
+                <a class="nav-link active" href="#" onclick="fetchData('Products')">
+                  Sidebar Item (Products) 
+                </a>
+              </li>
+            </ul>
+          </div>
+        </nav>
+        
+        <main
+          role="main"
+          class="col-md-9 ml-sm-auto col-lg-10 px-4"
+          id="mainContent"
+        >
+          <!-- Content will be dynamically populated here -->
+        </main>
+      </div>
+    </div>
+
+    <nav aria-label="Page navigation example">
+      <ul class="pagination justify-content-center">
+        <li class="page-item">
+          <a class="page-link" href="#" aria-label="Previous">
+            <span aria-hidden="true">&laquo;</span>
+          </a>
+        </li>
+        <li class="page-item"><a class="page-link" href="#">1</a></li>
+        <li class="page-item"><a class="page-link" href="#">2</a></li>
+        <li class="page-item"><a class="page-link" href="#">3</a></li>
+        <li class="page-item">
+          <a class="page-link" href="#" aria-label="Next">
+            <span aria-hidden="true">&raquo;</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+
+    <footer class="bg-dark text-white text-center py-2">
+      <p>This the Footer of WebSite</p>
+    </footer>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- axios  cdn -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+
+    <script>
+        function fetchData(category) {
+          try {
+            const url = "https://fakestoreapi.com/products"
+               fetch(url).then(data => data.json()).then(products => {
+                 console.log("data from api:",{products});
+                 // Call a function to update the content with the response data
+                 updateContent(products);
+                     
+               })
+          } catch (error) {
+            console.error('Error fetching data:', error);
+          }
+        }
+      
+        function updateContent(data) {
+  console.log("Data Object:", data);
+  const mainContent = document.getElementById('mainContent');
+  // Clear existing content
+  mainContent.innerHTML = '';
+
+  // Create a Bootstrap row for all cards
+  const row = document.createElement('div');
+  row.className = 'row';
+
+  // Replace this loop with your own logic to display the fetched data
+  data.forEach(item => {
+    // Create a Bootstrap column for each card
+    const col = document.createElement('div');
+    col.className = 'col-md-4'; // Adjust column size as needed
+
+    // Create a Bootstrap card for each item
+    const card = document.createElement('div');
+    card.className = 'card mb-4';
+    card.style = 'width: 100%; height: 100%';
+
+    // Create card body
+    const cardBody = document.createElement('div');
+    cardBody.className = 'card-body';
+
+    // Populate card body with item details
+    const picture = document.createElement('img');
+    picture.className = 'card-img-top';
+    picture.src = item.image;
+    picture.alt = 'Product Image';
+
+    const id = document.createElement('p');
+    id.className = 'card-text';
+    id.textContent = `ID: ${item.id}`;
+
+    const category = document.createElement('p');
+    category.className = 'card-text';
+    category.textContent = `CATEGORY: ${item.category}`;
+
+    const price = document.createElement('p');
+    price.className = 'card-text';
+    price.textContent = `PRICE: ${item.price}`;
+
+    const description= document.createElement('p');
+    description.className = 'card-text';
+    description.textContent = `DESCRIPTION: ${item.description}`;
+
+    const rating= document.createElement('p');
+    rating.className = 'card-text';
+    rating.textContent = `RATING: rate: ${item.rating.rate}, count: ${item.rating.count}`;
+
+    cardBody.appendChild(picture);
+    cardBody.appendChild(id);
+    cardBody.appendChild(category);
+    cardBody.appendChild(price);
+    cardBody.appendChild(description);
+    cardBody.appendChild(rating);
+
+    // Append card body to card
+    card.appendChild(cardBody);
+
+    // Append card to column
+    col.appendChild(card);
+
+    // Append column to row
+    row.appendChild(col);
+  });
+
+  // Append row to main content
+  mainContent.appendChild(row);
+   // Update the sidebar with product descriptions
+   updateSidebar(data);
+}
+function updateSidebar(data) {
+        const sidebar = document.querySelector('.sidebar-sticky ul');
+        // Clear existing content in the sidebar
+        sidebar.innerHTML = '';
+
+        // Create list items for product descriptions in the sidebar
+        data.forEach(item => {
+          const listItem = document.createElement('li');
+          listItem.className = 'nav-item';
+
+          const link = document.createElement('a');
+          link.className = 'nav-link';
+          link.href = '#'; // You might want to link to the specific product page here
+          link.innerHTML = `ID: ${item.id}<br>TITLE: ${item.title.substring(0, 100)}`; // Display the first 50 characters of the description
+
+          // Append link to list item
+          listItem.appendChild(link);
+
+          // Append list item to the sidebar
+          sidebar.appendChild(listItem);
+        });
+      }
+
+      </script>
+      </body>
+      </html>
